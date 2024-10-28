@@ -5,8 +5,11 @@ function App() {
   const [loading, setLoading] = createSignal(false);
   const [isListening, setIsListening] = createSignal(false);
   const [recognition, setRecognition] = createSignal(null);
+  const [conversationEnded, setConversationEnded] = createSignal(false);
+  const [currentAudio, setCurrentAudio] = createSignal(null);
 
   onMount(() => {
+    setConversationEnded(false);
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
       const recog = new SpeechRecognition();
@@ -36,7 +39,7 @@ function App() {
   });
 
   const startListening = () => {
-    if (recognition() && !isListening()) {
+    if (recognition() && !isListening() && !conversationEnded()) {
       setIsListening(true);
       recognition().start();
     }
@@ -46,6 +49,19 @@ function App() {
     if (recognition() && isListening()) {
       recognition().stop();
       setIsListening(false);
+    }
+  };
+
+  const stopConversation = () => {
+    setConversationEnded(true);
+    setIsListening(false);
+    if (recognition()) {
+      recognition().stop();
+    }
+    if (currentAudio()) {
+      currentAudio().pause();
+      currentAudio().currentTime = 0;
+      setCurrentAudio(null);
     }
   };
 
@@ -65,16 +81,22 @@ function App() {
   };
 
   const speakResponse = async (text) => {
+    if (conversationEnded()) return;
+
     try {
       const audioUrl = await createEvent('text_to_speech', {
         text,
         language: 'ar-SA',
       });
       const audio = new Audio(audioUrl);
+      setCurrentAudio(audio);
       audio.play();
 
       audio.onended = () => {
-        startListening();
+        setCurrentAudio(null);
+        if (!conversationEnded()) {
+          startListening();
+        }
       };
     } catch (error) {
       console.error('Error in text-to-speech:', error);
@@ -87,22 +109,41 @@ function App() {
         <h1 class="text-2xl font-bold text-purple-600 mb-4">محادثة AI الصوتية</h1>
 
         <div class="bg-white p-4 rounded-lg shadow-md w-full">
-          <Show when={!isListening()}>
+          <Show when={!conversationEnded()}>
+            <Show when={!isListening()}>
+              <button
+                class="w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+                onClick={startListening}
+                disabled={loading()}
+              >
+                {loading() ? 'جارٍ المعالجة...' : 'اضغط للتحدث'}
+              </button>
+            </Show>
+            <Show when={isListening()}>
+              <button
+                class="w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+                onClick={stopListening}
+                disabled={loading()}
+              >
+                جاري الاستماع... اضغط للإيقاف
+              </button>
+            </Show>
             <button
-              class="w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
-              onClick={startListening}
+              class="w-full mt-4 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+              onClick={stopConversation}
               disabled={loading()}
             >
-              {loading() ? 'جارٍ المعالجة...' : 'اضغط للتحدث'}
+              إنهاء المحادثة
             </button>
           </Show>
-          <Show when={isListening()}>
+          <Show when={conversationEnded()}>
+            <p class="text-center mt-4 text-red-600">تم إنهاء المحادثة</p>
             <button
-              class="w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
-              onClick={stopListening}
+              class="w-full mt-4 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+              onClick={() => { setConversationEnded(false); startListening(); }}
               disabled={loading()}
             >
-              جاري الاستماع... اضغط للإيقاف
+              بدء محادثة جديدة
             </button>
           </Show>
         </div>
