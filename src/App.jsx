@@ -19,8 +19,10 @@ function App() {
         await getAIResponse(transcript);
       };
 
-      recog.onerror = () => {
+      recog.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
         setIsListening(false);
+        setLoading(false);
       };
 
       recog.onend = () => {
@@ -56,7 +58,7 @@ function App() {
       });
       await speakResponse(response);
     } catch (error) {
-      console.error('Error getting AI response');
+      console.error('Error getting AI response:', error);
     } finally {
       setLoading(false);
     }
@@ -71,18 +73,16 @@ function App() {
       const audio = new Audio(audioUrl);
       audio.play();
     } catch (error) {
-      console.error('Error in text-to-speech');
+      console.error('Error in text-to-speech:', error);
     }
   };
 
   return (
     <div class="min-h-screen bg-gray-100 p-4 text-gray-800">
-      <div class="max-w-xl mx-auto h-full flex flex-col justify-center">
-        <div class="flex justify-center items-center mb-4">
-          <h1 class="text-2xl font-bold text-purple-600">محادثة AI الصوتية</h1>
-        </div>
+      <div class="h-full max-w-xl mx-auto flex flex-col justify-center items-center">
+        <h1 class="text-2xl font-bold text-purple-600 mb-4">محادثة AI الصوتية</h1>
 
-        <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+        <div class="bg-white p-4 rounded-lg shadow-md w-full">
           <Show when={!isListening()}>
             <button
               class="w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
