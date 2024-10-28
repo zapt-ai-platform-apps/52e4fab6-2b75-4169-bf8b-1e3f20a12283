@@ -27,12 +27,17 @@ New App provides a seamless voice interaction experience with AI for visually im
    - The spoken response is played back to the user.
    - The conversation text is not displayed on the screen.
 
-6. **Continuing the Conversation**
-   - The user can continue the conversation by speaking again.
-   - The app remains ready for further interaction or can be reactivated via the button.
+6. **Auto-Listening Continuation**
+   - After the AI's spoken response ends, the app automatically starts listening again.
+   - The user can continue the conversation without manually initiating the listening process.
+
+7. **Ending the Conversation**
+   - The user can choose to stop the conversation at any time by pressing the stop button.
+   - The app stops listening and processing input until reactivated.
 
 ### Features
 
+- **Continuous Voice Interaction**: Automatically starts listening after the AI response ends for a seamless conversational experience.
 - **Voice Recognition**: Allows users to input queries through speech in Arabic.
 - **AI Interaction**: Utilizes AI to generate responses to user queries.
 - **Text-to-Speech**: Converts AI responses into spoken words for the user.
@@ -52,4 +57,5 @@ New App provides a seamless voice interaction experience with AI for visually im
 ### Note
 
 - The app is designed to be fully functional without visual input, making it ideal for visually impaired users.
+- After each AI response, the app automatically starts listening again to facilitate continuous conversation.
 - The conversation text is not displayed on the screen to provide a seamless auditory experience.

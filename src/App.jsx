@@ -72,13 +72,17 @@ function App() {
       });
       const audio = new Audio(audioUrl);
       audio.play();
+
+      audio.onended = () => {
+        startListening();
+      };
     } catch (error) {
       console.error('Error in text-to-speech:', error);
     }
   };
 
   return (
-    <div class="min-h-screen bg-gray-100 p-4 text-gray-800">
+    <div class="h-full bg-gray-100 p-4 text-gray-800">
       <div class="h-full max-w-xl mx-auto flex flex-col justify-center items-center">
         <h1 class="text-2xl font-bold text-purple-600 mb-4">محادثة AI الصوتية</h1>
 
