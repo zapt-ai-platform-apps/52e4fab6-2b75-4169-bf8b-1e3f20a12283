@@ -5,7 +5,7 @@ New App enables voice conversations with an AI without the need for a visual int
 ## Features
 
 - **Voice Interaction**: Speak to the AI in Arabic, and it responds back in Arabic.
-- **End Conversation**: An "End Conversation" button allows users to terminate the conversation at any time.
+- **Dynamic Interface**: The "End Conversation" button appears only after the conversation has started.
 - **Responsive Design**: The app is designed to be user-friendly and works across different screen sizes.
 
 ## User Journey
@@ -23,8 +23,8 @@ New App enables voice conversations with an AI without the need for a visual int
 5. **Ongoing Conversation**:
    - After the AI finishes speaking, the app automatically starts listening again for your next input.
 6. **End Conversation**:
-   - At any point, you can click on the "إنهاء المحادثة" (End Conversation) button.
-   - The conversation ends, and the app stops listening and speaking.
+   - The "إنهاء المحادثة" (End Conversation) button appears once the conversation has started.
+   - Click on this button at any time to terminate the conversation.
 7. **Start a New Conversation**:
    - If you wish to start a new conversation, click on the "بدء محادثة جديدة" (Start New Conversation) button.
    - The conversation resets, and you can begin again from step 2.

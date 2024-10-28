@@ -128,19 +128,24 @@ function App() {
                 جاري الاستماع... اضغط للإيقاف
               </button>
             </Show>
-            <button
-              class="w-full mt-4 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
-              onClick={stopConversation}
-              disabled={loading()}
-            >
-              إنهاء المحادثة
-            </button>
+            <Show when={isListening() || currentAudio()}>
+              <button
+                class="w-full mt-4 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+                onClick={stopConversation}
+                disabled={loading()}
+              >
+                إنهاء المحادثة
+              </button>
+            </Show>
           </Show>
           <Show when={conversationEnded()}>
             <p class="text-center mt-4 text-red-600">تم إنهاء المحادثة</p>
             <button
               class="w-full mt-4 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
-              onClick={() => { setConversationEnded(false); startListening(); }}
+              onClick={() => {
+                setConversationEnded(false);
+                startListening();
+              }}
               disabled={loading()}
             >
               بدء محادثة جديدة
