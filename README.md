@@ -25,7 +25,7 @@ New App is designed to provide a seamless voice interaction experience with AI f
 5. **Receiving and Outputting the Response**
    - The AI's textual response is converted to speech using the `text_to_speech` event type.
    - The spoken response is played back to the user.
-   - The conversation text is not displayed on the screen.
+   - **The conversation text is not displayed on the screen.**
 
 6. **Continuing the Conversation**
    - The user can continue the conversation by speaking again.
@@ -42,7 +42,7 @@ New App is designed to provide a seamless voice interaction experience with AI f
 
 ### External APIs and Services
 
-- **Web Speech API**: Used for speech recognition and synthesis in the browser.
+- **Web Speech API**: Used for speech recognition in the browser.
 - **ZAPT AI Backend**: Handles AI processing and event creation.
 
 ### Environment Variables
