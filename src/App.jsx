@@ -1,9 +1,8 @@
-import { createSignal, onMount, Show, For } from 'solid-js';
+import { createSignal, onMount, Show } from 'solid-js';
 import { createEvent } from './supabaseClient';
 
 function App() {
   const [loading, setLoading] = createSignal(false);
-  const [conversation, setConversation] = createSignal([]);
   const [isListening, setIsListening] = createSignal(false);
   const [recognition, setRecognition] = createSignal(null);
 
@@ -17,7 +16,6 @@ function App() {
 
       recog.onresult = async (event) => {
         const transcript = event.results[0][0].transcript;
-        setConversation([...conversation(), { speaker: 'user', text: transcript }]);
         await getAIResponse(transcript);
       };
 
@@ -37,16 +35,16 @@ function App() {
   });
 
   const startListening = () => {
-    if (recognition()) {
+    if (recognition() && !isListening()) {
       setIsListening(true);
       recognition().start();
     }
   };
 
   const stopListening = () => {
-    if (recognition()) {
-      setIsListening(false);
+    if (recognition() && isListening()) {
       recognition().stop();
+      setIsListening(false);
     }
   };
 
@@ -57,7 +55,6 @@ function App() {
         prompt: text,
         response_type: 'text',
       });
-      setConversation([...conversation(), { speaker: 'ai', text: response }]);
       await speakResponse(response);
     } catch (error) {
       console.error('Error getting AI response:', error);
@@ -91,8 +88,9 @@ function App() {
             <button
               class="w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
               onClick={startListening}
+              disabled={loading()}
             >
-              اضغط للتحدث
+              {loading() ? 'جارٍ المعالجة...' : 'اضغط للتحدث'}
             </button>
           </Show>
           <Show when={isListening()}>
@@ -103,22 +101,6 @@ function App() {
               جاري الاستماع... اضغط للإيقاف
             </button>
           </Show>
-        </div>
-
-        <div class="bg-white p-4 rounded-lg shadow-md h-64 overflow-y-auto">
-          <For each={conversation()}>
-            {(msg) => (
-              <div class={`mb-4 ${msg.speaker === 'user' ? 'text-right' : 'text-left'}`}>
-                <p
-                  class={`${
-                    msg.speaker === 'user' ? 'bg-blue-100' : 'bg-gray-200'
-                  } p-2 rounded-lg inline-block`}
-                >
-                  {msg.text}
-                </p>
-              </div>
-            )}
-          </For>
         </div>
       </div>
     </div>
