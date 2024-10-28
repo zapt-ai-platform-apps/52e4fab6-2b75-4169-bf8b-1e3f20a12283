@@ -40,6 +40,11 @@ function App() {
 
   const startListening = () => {
     if (recognition() && !isListening() && !conversationEnded()) {
+      if (currentAudio()) {
+        currentAudio().pause();
+        currentAudio().currentTime = 0;
+        setCurrentAudio(null);
+      }
       setIsListening(true);
       recognition().start();
     }
@@ -104,7 +109,7 @@ function App() {
   };
 
   return (
-    <div class="h-full bg-gray-100 p-4 text-gray-800">
+    <div class="min-h-screen bg-gray-100 p-4 text-gray-800">
       <div class="h-full max-w-xl mx-auto flex flex-col justify-center items-center">
         <h1 class="text-2xl font-bold text-purple-600 mb-4">محادثة AI الصوتية</h1>
 
@@ -112,7 +117,7 @@ function App() {
           <Show when={!conversationEnded()}>
             <Show when={!isListening()}>
               <button
-                class="w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+                class="cursor-pointer w-full px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105"
                 onClick={startListening}
                 disabled={loading()}
               >
@@ -121,7 +126,7 @@ function App() {
             </Show>
             <Show when={isListening()}>
               <button
-                class="w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+                class="cursor-pointer w-full px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out transform hover:scale-105"
                 onClick={stopListening}
                 disabled={loading()}
               >
@@ -130,7 +135,7 @@ function App() {
             </Show>
             <Show when={isListening() || currentAudio()}>
               <button
-                class="w-full mt-4 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+                class="cursor-pointer w-full mt-4 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 ease-in-out transform hover:scale-105"
                 onClick={stopConversation}
                 disabled={loading()}
               >
@@ -141,7 +146,7 @@ function App() {
           <Show when={conversationEnded()}>
             <p class="text-center mt-4 text-red-600">تم إنهاء المحادثة</p>
             <button
-              class="w-full mt-4 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
+              class="cursor-pointer w-full mt-4 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
               onClick={() => {
                 setConversationEnded(false);
                 startListening();

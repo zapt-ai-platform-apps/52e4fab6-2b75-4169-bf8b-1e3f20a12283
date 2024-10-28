@@ -5,7 +5,8 @@ New App enables voice conversations with an AI without the need for a visual int
 ## Features
 
 - **Voice Interaction**: Speak to the AI in Arabic, and it responds back in Arabic.
-- **Dynamic Interface**: The "End Conversation" button appears only after the conversation has started.
+- **Dynamic Conversation Control**: When the conversation starts, you can end it at any time.
+- **Automatic Speech Control**: The app stops any AI speech output when it starts listening to you.
 - **Responsive Design**: The app is designed to be user-friendly and works across different screen sizes.
 
 ## User Journey
@@ -13,7 +14,7 @@ New App enables voice conversations with an AI without the need for a visual int
 1. **Access the App**: Open the app on your device.
 2. **Start Conversation**:
    - Click on the "اضغط للتحدث" (Press to Speak) button.
-   - The app starts listening to your voice.
+   - The app stops any AI speech output and starts listening to your voice.
 3. **Speak to the AI**:
    - Ask your question or say anything you'd like to discuss with the AI.
    - The app processes your speech and generates a response.
@@ -21,11 +22,12 @@ New App enables voice conversations with an AI without the need for a visual int
    - The AI responds back using Arabic speech.
    - The response is played aloud.
 5. **Ongoing Conversation**:
-   - After the AI finishes speaking, the app automatically starts listening again for your next input.
-6. **End Conversation**:
-   - The "إنهاء المحادثة" (End Conversation) button appears once the conversation has started.
-   - Click on this button at any time to terminate the conversation.
-7. **Start a New Conversation**:
+   - After the AI finishes speaking, the app automatically stops any ongoing speech when it listens for your next input.
+6. **Stop AI Speech**:
+   - If you wish to stop the AI's speech at any time, you can click on the "إيقاف التحدث" (Stop Speaking) button, which also starts listening to you.
+7. **End Conversation**:
+   - Click on the "إنهاء المحادثة" (End Conversation) button at any time to terminate the conversation.
+8. **Start a New Conversation**:
    - If you wish to start a new conversation, click on the "بدء محادثة جديدة" (Start New Conversation) button.
    - The conversation resets, and you can begin again from step 2.
 
